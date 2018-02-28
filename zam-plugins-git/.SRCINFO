@@ -1,0 +1,29 @@
+pkgbase = zam-plugins-git
+	pkgdesc = Collection of LV2/LADSPA/VST audio plugins for high quality processing.
+	pkgver = 3.10.r0.ga3321af
+	pkgrel = 1
+	url = https://github.com/zamaudio/zam-plugins
+	arch = i686
+	arch = x86_64
+	license = GPL2
+	makedepends = git
+	makedepends = pkg-config
+	makedepends = libx11
+	makedepends = libgl
+	makedepends = liblo
+	makedepends = jack
+	makedepends = ladspa
+	depends = jack2
+	depends = libglvnd
+	depends = fftw
+	depends = libsamplerate
+	provides = zam-plugins
+	conflicts = zam-plugins
+	conflicts = zamplugins
+	source = zam-plugins::git://github.com/zamaudio/zam-plugins.git
+	source = dpf::git://github.com/DISTRHO/DPF.git
+	md5sums = SKIP
+	md5sums = SKIP
+
+pkgname = zam-plugins-git
+

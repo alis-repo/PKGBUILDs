@@ -1,0 +1,29 @@
+pkgbase = pulseeffects
+	pkgdesc = Audio Effects for Pulseaudio Applications
+	pkgver = 3.2.0
+	pkgrel = 1
+	url = https://github.com/wwmm/pulseeffects
+	arch = any
+	license = GPL3
+	makedepends = meson
+	depends = python
+	depends = python-gobject
+	depends = python-cairo
+	depends = gtk3
+	depends = gst-plugins-good
+	depends = gst-plugins-bad
+	depends = gst-python
+	depends = python-numpy
+	depends = python-scipy
+	depends = lilv
+	optdepends = swh-plugins: limiter, output limiter and compressor
+	optdepends = calf: exciter, bass enhancer and stereo enhancer
+	optdepends = zam-plugins-git: maximizer
+	optdepends = lsp-plugins-lv2-bin: delay
+	optdepends = rubberband: pitch shifting
+	options = !emptydirs
+	source = pulseeffects-3.2.0::https://github.com/wwmm/pulseeffects/archive/v3.2.0.tar.gz
+	md5sums = a739d16d69b6cac251737a38764dae72
+
+pkgname = pulseeffects
+
