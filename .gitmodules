@@ -1,0 +1,3 @@
+[submodule "triggerhappy-git"]
+	path = triggerhappy-git
+	url = https://aur.archlinux.org/triggerhappy-git.git
