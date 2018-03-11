@@ -1,0 +1,116 @@
+# Maintainer: Quentin Glidic <sardemff7@eventd.org>
+
+pkgname=eventd-git
+pkgver=0.24.0.r1.gb50e1ee1
+_gitname=eventd
+_pkgdir=${_gitname}
+pkgrel=1
+pkgdesc="A small daemon to act on remote or local events"
+arch=(
+    i686
+    x86_64
+)
+url="https://www.eventd.org"
+license=(
+    GPL3
+    LGPL3
+    MIT
+)
+depends=(
+    'cairo>=1.12.0'
+    gdk-pixbuf2
+    'glib2>=2.40.0'
+    glib-networking
+    pango
+    libsystemd
+    libxcb
+    libxkbcommon
+    libxkbcommon-x11
+    util-linux
+    xcb-util
+    xcb-util-wm
+)
+makedepends=(
+    git
+    meson
+    pkg-config
+    ninja
+    libxslt
+    docbook-xsl
+)
+optdepends=(
+    'avahi: DNS-SD support'
+    'gssdp: SSDP support'
+    'librsvg: SVG images support'
+    'libsoup: WebSocket support'
+)
+provides=(
+    eventd
+)
+conflicts=(
+    eventd
+)
+options=(
+    !strip
+)
+source=(
+    git+https://github.com/sardemff7/${_gitname}
+    git+https://github.com/sardemff7/libnkutils
+    git+https://github.com/sardemff7/libgwater
+)
+sha256sums=(
+    SKIP
+    SKIP
+    SKIP
+)
+
+pkgver() {
+    cd "${srcdir}"/${_pkgdir}
+    git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+    cd "${srcdir}"/${_pkgdir}
+    git submodule init
+    git config submodule.libnkutils.url "${srcdir}/libnkutils"
+    git config submodule.libgwater.url "${srcdir}/libgwater"
+    git submodule update
+}
+
+build() {
+    local params=(
+        --prefix=/usr
+        -Dwebsocket=true
+        -Ddns-sd=false
+        -Dssdp=false
+        -Dipv6=false
+        -Dsystemd=true
+        -Dnotification-daemon=true
+        -Dnd-wayland=true
+        -Dnd-fbdev=false
+        -Dnd-xcb=false     
+        -Dim=true        
+        -Dsound=true
+        -Dtts=true
+        -Dwebhook=true
+        -Dlibnotify=true
+        -Dlibcanberra=true        
+        -Dgobject-introspection=false
+        -Ddebuf=false
+        -Dsystemduserunitdir=/usr/lib/systemd/user
+        -Dsystemdsystemunitdir=/usr/lib/systemd/system        
+    )
+
+    cd "${srcdir}"/${_pkgdir}
+    meson "${srcdir}"/build "${params[@]}"
+    ninja -C "${srcdir}"/build
+}
+
+check() {
+    ninja -C "${srcdir}"/build test
+}
+
+package() {
+    DESTDIR="${pkgdir}" \
+    ninja -C "${srcdir}"/build install
+}

@@ -34,11 +34,6 @@ build() {
     make
 }
 
-check() {
-    cd wayland-protocols/build
-    rm -rf stable unstable test-suite.log
-    make test-suite.log
-}
 
 package() {
     cd wayland-protocols/build

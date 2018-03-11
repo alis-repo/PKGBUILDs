@@ -13,7 +13,7 @@ pkgdesc="A window switcher, run dialog and dmenu replacement"
 arch=('i686' 'x86_64')
 url="https://davedavenport.github.io/rofi/"
 license=('MIT')
-depends=(freetype2 libxdg-basedir pango xcb-util-xrm wayland-wall)
+depends=(freetype2 libxdg-basedir pango xcb-util-xrm wayland-wall-git)
 optdepends=('sway: use as application runner'
             'wlc-wall-injector: injects wall wayland protocol in wlc based compositors'
             'orbment: use as application runner')
@@ -31,6 +31,8 @@ pkgver() {
 prepare() {
   cd "$srcdir/$_gitname"
   git submodule update --init
+
+  export PKG_CONFIG_PATH=/usr/share/pkgconfig:/usr/local/share/pkgconfig
   autoreconf --install
 
   # Default compiler = clang, which can be a problem if using hardening-wrapper
